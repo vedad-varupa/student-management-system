@@ -3,12 +3,13 @@ package com.example.Student.service;
 import com.example.Student.dao.StudentRepository;
 import com.example.Student.dto.StudentRequest;
 import com.example.Student.dto.StudentResponse;
+import com.example.Student.exception.ApiRequestException;
 import com.example.Student.mapper.StudentMapper;
 import com.example.Student.model.StudentEntity;
-import com.example.Student.service.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
+    public static final String STUDENT_DOES_NOT_EXIST = "Student with {0} does not exist";
+
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
 
@@ -49,15 +52,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public String deleteStudentById(final Long id) {
-        String message = "";
-        if (studentRepository.existsById(id)) {
-            studentRepository.deleteById(id);
-            message = "Deleted";
-        } else {
-            message = "Not found";
+    public void deleteStudentById(final Long id) {
+        if (!studentRepository.existsById(id)) {
+            throw new ApiRequestException(
+                    MessageFormat.format(STUDENT_DOES_NOT_EXIST, id)
+            );
         }
-        return message;
+        studentRepository.deleteById(id);
     }
 
     @Override
