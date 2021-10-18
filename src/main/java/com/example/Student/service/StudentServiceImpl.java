@@ -65,11 +65,12 @@ public class StudentServiceImpl implements StudentService {
     public StudentResponse updateStudent(Long id, StudentRequest studentRequest) {
         final Optional<StudentEntity> studentEntityOptional = studentRepository.findById(id);
         StudentEntity studentEntity = null;
-        if (studentEntityOptional.isPresent()) {
-            studentEntity = studentEntityOptional.get();
-        } else {
-            throw new RuntimeException("Student not found.");
+        if (!studentEntityOptional.isPresent()) {
+            throw new ApiRequestException(
+                    MessageFormat.format(STUDENT_DOES_NOT_EXIST, id)
+            );
         }
+        studentEntity = studentEntityOptional.get();
         studentEntity.setName(studentRequest.getName());
         studentEntity.setLastname(studentRequest.getLastname());
         studentEntity.setEmail(studentRequest.getEmail());
