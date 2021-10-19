@@ -18,7 +18,6 @@ public class StudentMapperImp implements StudentMapper{
         studentResponse.setLastname(studentEntity.getLastname());
         studentResponse.setAge(studentEntity.getAge());
         studentResponse.setEmail(studentEntity.getEmail());
-        studentResponse.setAge(studentEntity.getAge());
         return studentResponse;
     }
 
@@ -28,7 +27,6 @@ public class StudentMapperImp implements StudentMapper{
         studentEntity.setName(studentRequest.getName());
         studentEntity.setLastname(studentRequest.getLastname());
         studentEntity.setEmail(studentRequest.getEmail());
-
         return studentEntity;
     }
 }
