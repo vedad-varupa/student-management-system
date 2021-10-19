@@ -35,11 +35,13 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentResponse getStudentById(final Long id) {
         final Optional<StudentEntity> studentEntityOptional = studentRepository.findById(id);
-        if (studentEntityOptional.isPresent()) {
-            final StudentEntity entity = studentEntityOptional.get();
-            return studentMapper.entityToResponse(entity);
+        if (!studentEntityOptional.isPresent()) {
+            throw new ApiRequestException(
+                    MessageFormat.format(STUDENT_DOES_NOT_EXIST, id)
+            );
         }
-        return new StudentResponse();
+        final StudentEntity entity = studentEntityOptional.get();
+        return studentMapper.entityToResponse(entity);
     }
 
     @Override

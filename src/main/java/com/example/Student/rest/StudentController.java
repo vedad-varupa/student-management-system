@@ -4,6 +4,8 @@ import com.example.Student.dto.StudentRequest;
 import com.example.Student.dto.StudentResponse;
 import com.example.Student.service.StudentService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,34 +16,31 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
-    @GetMapping("test")
-    public String test() {
-        System.err.println("test is working");
-        return "test is valid";
-    }
-
     @GetMapping("/get-students")
-    public List<StudentResponse> getAllStudents() {
-        return studentService.getAllStudents();
+    public ResponseEntity<List<StudentResponse>> getAllStudents() {
+        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.FOUND);
     }
 
     @GetMapping("/get-student/{id}")
-    public StudentResponse getStudentById(@PathVariable Long id) {
-        return studentService.getStudentById(id);
+    public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.getStudentById(id), HttpStatus.FOUND);
     }
 
     @PostMapping("/create-student")
-    public StudentResponse createStudent(@RequestBody StudentRequest studentRequest) {
-        return studentService.createStudent(studentRequest);
+    public ResponseEntity<StudentResponse> createStudent(@RequestBody StudentRequest studentRequest) {
+        return new ResponseEntity<>(studentService.createStudent(studentRequest), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete-student/{id}")
-    public void deleteStudentById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStudentById(@PathVariable final Long id) {
         studentService.deleteStudentById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/update-student/{id}")
-    public StudentResponse updateStudentById(@PathVariable Long id, @RequestBody StudentRequest studentRequest) {
-        return studentService.updateStudent(id, studentRequest);
+    public ResponseEntity<StudentResponse> updateStudentById(
+            @PathVariable Long id,
+            @RequestBody StudentRequest studentRequest) {
+        return new ResponseEntity<>(studentService.updateStudent(id, studentRequest), HttpStatus.ACCEPTED);
     }
 }
