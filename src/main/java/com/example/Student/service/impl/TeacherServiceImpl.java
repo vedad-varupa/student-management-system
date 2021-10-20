@@ -1,4 +1,4 @@
-package com.example.Student.service;
+package com.example.Student.service.impl;
 
 import com.example.Student.dao.TeacherRepository;
 import com.example.Student.dto.TeacherRequest;
@@ -7,6 +7,7 @@ import com.example.Student.exception.ApiRequestException;
 import com.example.Student.mapper.TeacherMapper;
 import com.example.Student.model.StudentEntity;
 import com.example.Student.model.TeacherEntity;
+import com.example.Student.service.TeacherService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
