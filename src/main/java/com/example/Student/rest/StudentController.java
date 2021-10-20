@@ -16,31 +16,31 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
-    @GetMapping("/get-students")
-    public ResponseEntity<List<StudentResponse>> getAllStudents() {
-        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.FOUND);
+    @GetMapping
+    public ResponseEntity<List<StudentResponse>> getAll() {
+        return new ResponseEntity<>(studentService.getAll(), HttpStatus.FOUND);
     }
 
-    @GetMapping("/get-student/{id}")
-    public ResponseEntity<StudentResponse> getStudentById(@PathVariable Long id) {
-        return new ResponseEntity<>(studentService.getStudentById(id), HttpStatus.FOUND);
+    @GetMapping("{id}")
+    public ResponseEntity<StudentResponse> getById(@PathVariable final Long id) {
+        return new ResponseEntity<>(studentService.getById(id), HttpStatus.FOUND);
     }
 
-    @PostMapping("/create-student")
-    public ResponseEntity<StudentResponse> createStudent(@RequestBody StudentRequest studentRequest) {
-        return new ResponseEntity<>(studentService.createStudent(studentRequest), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<StudentResponse> create(@RequestBody final StudentRequest studentRequest) {
+        return new ResponseEntity<>(studentService.create(studentRequest), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete-student/{id}")
-    public ResponseEntity<Void> deleteStudentById(@PathVariable final Long id) {
-        studentService.deleteStudentById(id);
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable final Long id) {
+        studentService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/update-student/{id}")
-    public ResponseEntity<StudentResponse> updateStudentById(
-            @PathVariable Long id,
-            @RequestBody StudentRequest studentRequest) {
-        return new ResponseEntity<>(studentService.updateStudent(id, studentRequest), HttpStatus.ACCEPTED);
+    @PutMapping("{id}")
+    public ResponseEntity<StudentResponse> updateById(
+            @PathVariable final Long id,
+            @RequestBody final StudentRequest studentRequest) {
+        return new ResponseEntity<>(studentService.updateById(id, studentRequest), HttpStatus.ACCEPTED);
     }
 }

@@ -3,10 +3,17 @@ package com.example.Student.service;
 import com.example.Student.dto.TeacherRequest;
 import com.example.Student.dto.TeacherResponse;
 
+import java.util.List;
+
 public interface TeacherService {
-    TeacherResponse getTeacherById(final Long id);
 
-    TeacherResponse createTeacher(final TeacherRequest teacherRequest);
+    List<TeacherResponse> getAll();
 
-    void deleteTeacherById(final Long id);
+    TeacherResponse getById(final Long id);
+
+    TeacherResponse create(final TeacherRequest teacherRequest);
+
+    void deleteById(final Long id);
+
+    TeacherResponse updateById(final Long id, final TeacherRequest teacherRequest);
 }

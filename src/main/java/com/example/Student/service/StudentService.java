@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface StudentService {
 
-    List<StudentResponse> getAllStudents();
+    List<StudentResponse> getAll();
 
-    StudentResponse getStudentById(final Long id);
+    StudentResponse getById(final Long id);
 
-    StudentResponse createStudent(final StudentRequest studentRequest);
+    StudentResponse create(final StudentRequest studentRequest);
 
-    void deleteStudentById(final Long id);
+    void deleteById(final Long id);
 
-    StudentResponse updateStudent(Long id, StudentRequest studentRequest);
+    StudentResponse updateById(Long id, StudentRequest studentRequest);
 }

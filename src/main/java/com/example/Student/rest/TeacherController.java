@@ -8,25 +8,40 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("teacher")
 @AllArgsConstructor
 public class TeacherController {
     private TeacherService teacherService;
 
-    @GetMapping("/get-teacher/{id}")
-    public ResponseEntity<TeacherResponse> getTeacherById(@PathVariable Long id) {
-        return new ResponseEntity<>(teacherService.getTeacherById(id), HttpStatus.FOUND);
+    @GetMapping
+    public ResponseEntity<List<TeacherResponse>> getAll() {
+        return new ResponseEntity<>(teacherService.getAll(), HttpStatus.FOUND);
     }
 
-    @PostMapping("/create-teacher")
-    public ResponseEntity<TeacherResponse> createTeacher(@RequestBody TeacherRequest teacherRequest) {
-        return new ResponseEntity<>(teacherService.createTeacher(teacherRequest), HttpStatus.CREATED);
+    @GetMapping("{id}")
+    public ResponseEntity<TeacherResponse> getById(@PathVariable final Long id) {
+        return new ResponseEntity<>(teacherService.getById(id), HttpStatus.FOUND);
     }
 
-    @DeleteMapping("/delete-teacher/{id}")
-    public ResponseEntity<Void> deleteTeacherById(@PathVariable final Long id) {
-        teacherService.deleteTeacherById(id);
+    @PostMapping
+    public ResponseEntity<TeacherResponse> create(@RequestBody TeacherRequest teacherRequest) {
+        return new ResponseEntity<>(teacherService.create(teacherRequest), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable final Long id) {
+        teacherService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<TeacherResponse> updateById(
+            @PathVariable final Long id,
+            @RequestBody final TeacherRequest teacherRequest) {
+        return new ResponseEntity<>(teacherService.updateById(id, teacherRequest), HttpStatus.ACCEPTED);
+    }
+
 }

@@ -5,6 +5,7 @@ import com.example.Student.dto.TeacherRequest;
 import com.example.Student.dto.TeacherResponse;
 import com.example.Student.exception.ApiRequestException;
 import com.example.Student.mapper.TeacherMapper;
+import com.example.Student.model.StudentEntity;
 import com.example.Student.model.TeacherEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,7 +25,14 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherMapper teacherMapper;
 
     @Override
-    public TeacherResponse getTeacherById(Long id) {
+    public List<TeacherResponse> getAll() {
+        return teacherRepository.findAll().stream()
+                .map(teacher -> teacherMapper.entityToResponse(teacher))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public TeacherResponse getById(Long id) {
         final Optional<TeacherEntity> teacherEntityOptional = teacherRepository.findById(id);
         if (!teacherEntityOptional.isPresent()) {
             throw new ApiRequestException(
@@ -34,7 +44,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public TeacherResponse createTeacher(final TeacherRequest teacherRequest) {
+    public TeacherResponse create(final TeacherRequest teacherRequest) {
         final TeacherEntity teacherEntity = teacherMapper.requestToEntity(teacherRequest);
         final int age = Period.between(teacherRequest.getDate(), LocalDate.now()).getYears();
         teacherEntity.setAge(age);
@@ -43,13 +53,31 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void deleteTeacherById(final Long id) {
+    public void deleteById(final Long id) {
         if (!teacherRepository.existsById(id)) {
             throw new ApiRequestException(
                     MessageFormat.format(TEACHER_DOES_NOT_EXIST, id)
             );
         }
         teacherRepository.deleteById(id);
+    }
+
+    @Override
+    public TeacherResponse updateById(Long id, TeacherRequest teacherRequest) {
+        final Optional<TeacherEntity> teacherEntityOptional = teacherRepository.findById(id);
+        TeacherEntity teacherEntity = null;
+        if (!teacherEntityOptional.isPresent()) {
+            throw new ApiRequestException(
+                    MessageFormat.format(TEACHER_DOES_NOT_EXIST, id)
+            );
+        }
+        teacherEntity = teacherEntityOptional.get();
+        teacherEntity.setName(teacherRequest.getName());
+        teacherEntity.setLastname(teacherRequest.getLastname());
+        teacherEntity.setEmail(teacherRequest.getEmail());
+        TeacherEntity updateTeacherEntity = teacherRepository.save(teacherEntity);
+        return teacherMapper.entityToResponse(updateTeacherEntity);
+
     }
 
 
