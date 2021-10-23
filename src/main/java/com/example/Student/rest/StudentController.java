@@ -40,7 +40,8 @@ public class StudentController {
     @PutMapping("{id}")
     public ResponseEntity<StudentResponse> updateById(
             @PathVariable final Long id,
-            @RequestBody final StudentRequest studentRequest) {
+            @RequestBody final StudentRequest studentRequest
+    ) {
         return new ResponseEntity<>(studentService.updateById(id, studentRequest), HttpStatus.ACCEPTED);
     }
 }
