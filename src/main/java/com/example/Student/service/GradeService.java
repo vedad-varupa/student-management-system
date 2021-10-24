@@ -7,4 +7,5 @@ public interface GradeService {
     GradeResponse create(final GradeRequest gradeRequest);
 
 
+    GradeResponse getById(final Long id);
 }

@@ -18,7 +18,7 @@ public class GradeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String grade;
+    private Integer grade;
     private LocalDateTime cratedAt;
     private String createdBy;
     @ManyToOne

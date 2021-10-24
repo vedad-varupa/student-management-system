@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class GradeResponse {
     private Long gradeId;
-    private String gradeValue;
+    private Integer grade;
     private String subjectName;
     private String teacherName;
     private String studentFullName;

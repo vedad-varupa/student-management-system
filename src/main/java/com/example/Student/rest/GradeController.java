@@ -21,5 +21,9 @@ public class GradeController {
     public ResponseEntity<GradeResponse> create(@RequestBody final GradeRequest gradeRequest) {
         return new ResponseEntity<>(gradeService.create(gradeRequest), HttpStatus.CREATED);
     }
+    @GetMapping("{id}")
+    public ResponseEntity<GradeResponse> getById(@PathVariable final Long id) {
+        return new ResponseEntity<>(gradeService.getById(id), HttpStatus.FOUND);
+    }
 
 }
