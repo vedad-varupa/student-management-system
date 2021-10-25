@@ -75,4 +75,14 @@ public class GradeServiceImpl implements GradeService {
         final GradeEntity entity = gradeEntityOptional.get();
         return gradeMapper.entityToResponse(entity);
     }
+
+    @Override
+    public void deleteById(final Long id) {
+        if (!gradeRepository.existsById(id)) {
+            throw new ApiRequestException(
+                    MessageFormat.format(GRADE_DOES_NOT_EXIST, id)
+            );
+        }
+        gradeRepository.deleteById(id);
+    }
 }
