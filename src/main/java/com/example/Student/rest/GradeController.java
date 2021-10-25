@@ -25,5 +25,9 @@ public class GradeController {
     public ResponseEntity<GradeResponse> getById(@PathVariable final Long id) {
         return new ResponseEntity<>(gradeService.getById(id), HttpStatus.FOUND);
     }
-
+   @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable final Long id) {
+        gradeService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+   }
 }

@@ -8,4 +8,6 @@ public interface GradeService {
 
 
     GradeResponse getById(final Long id);
+
+    void deleteById(final Long id);
 }
