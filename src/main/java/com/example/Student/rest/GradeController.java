@@ -30,4 +30,11 @@ public class GradeController {
         gradeService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
    }
+   @PutMapping("{id}")
+    public ResponseEntity<GradeResponse> updateById(
+            @PathVariable final Long id,
+            @RequestBody GradeRequest gradeRequest) {
+        return new ResponseEntity<>(gradeService.updateById(id, gradeRequest),HttpStatus.ACCEPTED);
+   }
+
 }

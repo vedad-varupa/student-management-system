@@ -10,4 +10,6 @@ public interface GradeService {
     GradeResponse getById(final Long id);
 
     void deleteById(final Long id);
+
+    GradeResponse updateById(final Long id, GradeRequest gradeRequest);
 }

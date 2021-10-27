@@ -1,7 +1,8 @@
-package com.example.Student.mapper;
+package com.example.Student.mapper.impl;
 
 import com.example.Student.dto.GradeRequest;
 import com.example.Student.dto.GradeResponse;
+import com.example.Student.mapper.GradeMapper;
 import com.example.Student.model.GradeEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -9,18 +10,19 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-@RequiredArgsConstructor
 public class GradeMapperImp implements GradeMapper {
 
     @Override
-    public GradeResponse entityToResponse(GradeEntity gradeEntity) {
-        GradeResponse gradeResponse = new GradeResponse();
+    public GradeResponse entityToResponse(final GradeEntity gradeEntity) {
+        final GradeResponse gradeResponse = new GradeResponse();
         gradeResponse.setGradeId(gradeEntity.getId());
         gradeResponse.setGrade(gradeEntity.getGrade());
         gradeResponse.setSubjectName(gradeEntity.getSubjectEntity().getSubjectName());
         gradeResponse.setTeacherName(gradeEntity.getTeacherEntity().getName());
-        gradeResponse.setStudentFullName(gradeEntity.getStudentEntity().getName());
-        gradeResponse.setCreatedAt(LocalDateTime.now());
+        gradeResponse.setStudentFullName(
+                gradeEntity.getStudentEntity().getName() + " " + gradeEntity.getStudentEntity().getLastname()
+        );
+        gradeResponse.setCreatedAt(gradeEntity.getCratedAt());
         return gradeResponse;
     }
 
@@ -30,4 +32,5 @@ public class GradeMapperImp implements GradeMapper {
         gradeEntity.setGrade(gradeRequest.getGrade());
         return gradeEntity;
     }
+
 }

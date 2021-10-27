@@ -1,13 +1,14 @@
-package com.example.Student.mapper;
+package com.example.Student.mapper.impl;
 
 
 import com.example.Student.dto.StudentRequest;
 import com.example.Student.dto.StudentResponse;
+import com.example.Student.mapper.StudentMapper;
 import com.example.Student.model.StudentEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StudentMapperImp implements StudentMapper{
+public class StudentMapperImp implements StudentMapper {
 
 
     @Override

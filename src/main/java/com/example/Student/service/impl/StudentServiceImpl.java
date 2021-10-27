@@ -8,6 +8,7 @@ import com.example.Student.mapper.StudentMapper;
 import com.example.Student.model.StudentEntity;
 import com.example.Student.service.StudentService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -18,10 +19,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
     public static final String STUDENT_DOES_NOT_EXIST = "Student with {0} does not exist";
-
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
 
@@ -65,18 +65,20 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentResponse updateById(Long id, StudentRequest studentRequest) {
+    public StudentResponse updateById(final Long id, final StudentRequest studentRequest) {
         final Optional<StudentEntity> studentEntityOptional = studentRepository.findById(id);
-        StudentEntity studentEntity = null;
+
         if (!studentEntityOptional.isPresent()) {
             throw new ApiRequestException(
                     MessageFormat.format(STUDENT_DOES_NOT_EXIST, id)
             );
         }
-        studentEntity = studentEntityOptional.get();
+        final StudentEntity studentEntity = studentEntityOptional.get();
         studentEntity.setName(studentRequest.getName());
         studentEntity.setLastname(studentRequest.getLastname());
         studentEntity.setEmail(studentRequest.getEmail());
+        final int age = Period.between(studentRequest.getDate(), LocalDate.now()).getYears();
+        studentEntity.setAge(age);
         StudentEntity updateStudentEntity = studentRepository.save(studentEntity);
         return studentMapper.entityToResponse(updateStudentEntity);
     }
