@@ -26,6 +26,7 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepository teacherRepository;
     private final TeacherMapper teacherMapper;
 
+
     @Override
     public List<TeacherResponse> getAll() {
         return teacherRepository.findAll().stream()
@@ -84,5 +85,14 @@ public class TeacherServiceImpl implements TeacherService {
 
     }
 
-
+    @Override
+    public TeacherEntity findTeacherEntityById(Long id) {
+        final Optional<TeacherEntity> teacherEntityOptional = teacherRepository.findById(id);
+        if (!teacherEntityOptional.isPresent()) {
+            throw new ApiRequestException(
+                    MessageFormat.format(TEACHER_DOES_NOT_EXIST, id)
+            );
+        }
+        return teacherEntityOptional.get();
+    }
 }

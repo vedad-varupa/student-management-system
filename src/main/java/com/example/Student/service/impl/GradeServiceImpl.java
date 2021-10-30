@@ -13,6 +13,9 @@ import com.example.Student.model.StudentEntity;
 import com.example.Student.model.SubjectEntity;
 import com.example.Student.model.TeacherEntity;
 import com.example.Student.service.GradeService;
+import com.example.Student.service.StudentService;
+import com.example.Student.service.SubjectService;
+import com.example.Student.service.TeacherService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,38 +27,25 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class GradeServiceImpl implements GradeService {
-    public static final String STUDENT_DOES_NOT_EXIST = "Student with {0} does not exist";
-    public static final String TEACHER_DOES_NOT_EXIST = "Teacher with {0} does not exist";
-    private static final String SUBJECT_DOES_NOT_EXIST = "Subject with {0} does not exist";
     private static final String GRADE_DOES_NOT_EXIST = "Grade with {0} does not exist";
     private final GradeRepository gradeRepository;
-    private final StudentRepository studentRepository;
-    private final TeacherRepository teacherRepository;
-    private final SubjectRepository subjectRepository;
+    private final StudentService studentService;
+    private final TeacherService teacherService;
+    private final SubjectService subjectService;
     private final GradeMapper gradeMapper;
 
 
     @Override
     public GradeResponse create(final GradeRequest gradeRequest) {
         final GradeEntity gradeEntity = new GradeEntity();
-        final Optional<StudentEntity> optionalStudentEntity = studentRepository.findById(gradeRequest.getStudentId());
-        if (!optionalStudentEntity.isPresent()) {
-            throw new ApiRequestException(MessageFormat.format(STUDENT_DOES_NOT_EXIST, gradeRequest.getStudentId()));
-        }
-        gradeEntity.setStudentEntity(optionalStudentEntity.get());
+        final StudentEntity studentEntity = studentService.findStudentEntityById(gradeRequest.getStudentId());
+        gradeEntity.setStudentEntity(studentEntity);
 
-        final Optional<TeacherEntity> optionalTeacherEntity = teacherRepository.findById(gradeRequest.getTeacherId());
-        if (!optionalTeacherEntity.isPresent()) {
-            throw new ApiRequestException(MessageFormat.format(TEACHER_DOES_NOT_EXIST, gradeRequest.getTeacherId()));
-        }
-        gradeEntity.setTeacherEntity(optionalTeacherEntity.get());
+        final SubjectEntity subjectEntity = subjectService.findSubjectEntityById(gradeRequest.getSubjectId());
+        gradeEntity.setSubjectEntity(subjectEntity);
 
-        final Optional<SubjectEntity> optionalSubjectEntity = subjectRepository.findById(gradeRequest.getSubjectId());
-        if (!optionalSubjectEntity.isPresent()) {
-            throw new ApiRequestException(MessageFormat.format(SUBJECT_DOES_NOT_EXIST, gradeRequest.getSubjectId()));
-        }
-        gradeEntity.setSubjectEntity(optionalSubjectEntity.get());
-
+        final TeacherEntity teacherEntity = teacherService.findTeacherEntityById(gradeRequest.getTeacherId());
+        gradeEntity.setTeacherEntity(teacherEntity);
         gradeEntity.setCratedAt(LocalDateTime.now());
         gradeEntity.setCreatedBy("SYSTEM");
         gradeEntity.setGrade(gradeRequest.getGrade());
@@ -100,23 +90,14 @@ public class GradeServiceImpl implements GradeService {
             gradeEntity.setGrade(gradeRequest.getGrade());
         }
 
-        final Optional<StudentEntity> optionalStudentEntity = studentRepository.findById(gradeRequest.getStudentId());
-        if (!optionalStudentEntity.isPresent()) {
-            throw new ApiRequestException(MessageFormat.format(STUDENT_DOES_NOT_EXIST, gradeRequest.getStudentId()));
-        }
-        gradeEntity.setStudentEntity(optionalStudentEntity.get());
+        final StudentEntity studentEntity = studentService.findStudentEntityById(gradeRequest.getStudentId());
+        gradeEntity.setStudentEntity(studentEntity);
 
-        final Optional<TeacherEntity> optionalTeacherEntity = teacherRepository.findById(gradeRequest.getTeacherId());
-        if (!optionalTeacherEntity.isPresent()) {
-            throw new ApiRequestException(MessageFormat.format(TEACHER_DOES_NOT_EXIST, gradeRequest.getTeacherId()));
-        }
-        gradeEntity.setTeacherEntity(optionalTeacherEntity.get());
+        final TeacherEntity teacherEntity = teacherService.findTeacherEntityById(gradeRequest.getTeacherId());
+        gradeEntity.setTeacherEntity(teacherEntity);
 
-        final Optional<SubjectEntity> optionalSubjectEntity = subjectRepository.findById(gradeRequest.getSubjectId());
-        if (!optionalSubjectEntity.isPresent()) {
-            throw new ApiRequestException(MessageFormat.format(SUBJECT_DOES_NOT_EXIST, gradeRequest.getSubjectId()));
-        }
-        gradeEntity.setSubjectEntity(optionalSubjectEntity.get());
+        final SubjectEntity subjectEntity = subjectService.findSubjectEntityById(gradeRequest.getSubjectId());
+        gradeEntity.setSubjectEntity(subjectEntity);
 
         final GradeEntity updatedGradeEntity = gradeRepository.save(gradeEntity);
         return gradeMapper.entityToResponse(updatedGradeEntity);

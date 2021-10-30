@@ -35,14 +35,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse getById(final Long id) {
-        final Optional<StudentEntity> studentEntityOptional = studentRepository.findById(id);
-        if (!studentEntityOptional.isPresent()) {
-            throw new ApiRequestException(
-                    MessageFormat.format(STUDENT_DOES_NOT_EXIST, id)
-            );
-        }
-        final StudentEntity entity = studentEntityOptional.get();
-        return studentMapper.entityToResponse(entity);
+        return studentMapper.entityToResponse(findStudentEntityById(id));
     }
 
     @Override
@@ -66,14 +59,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse updateById(final Long id, final StudentRequest studentRequest) {
-        final Optional<StudentEntity> studentEntityOptional = studentRepository.findById(id);
-
-        if (!studentEntityOptional.isPresent()) {
-            throw new ApiRequestException(
-                    MessageFormat.format(STUDENT_DOES_NOT_EXIST, id)
-            );
-        }
-        final StudentEntity studentEntity = studentEntityOptional.get();
+        final StudentEntity studentEntity = findStudentEntityById(id);
         studentEntity.setName(studentRequest.getName());
         studentEntity.setLastname(studentRequest.getLastname());
         studentEntity.setEmail(studentRequest.getEmail());
@@ -81,6 +67,17 @@ public class StudentServiceImpl implements StudentService {
         studentEntity.setAge(age);
         StudentEntity updateStudentEntity = studentRepository.save(studentEntity);
         return studentMapper.entityToResponse(updateStudentEntity);
+    }
+
+    @Override
+    public StudentEntity findStudentEntityById(final Long id) {
+        final Optional<StudentEntity> studentEntityOptional = studentRepository.findById(id);
+        if (!studentEntityOptional.isPresent()) {
+            throw new ApiRequestException(
+                    MessageFormat.format(STUDENT_DOES_NOT_EXIST, id)
+            );
+        }
+        return studentEntityOptional.get();
     }
 
 }

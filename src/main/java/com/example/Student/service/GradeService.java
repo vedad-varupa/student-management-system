@@ -6,7 +6,6 @@ import com.example.Student.dto.GradeResponse;
 public interface GradeService {
     GradeResponse create(final GradeRequest gradeRequest);
 
-
     GradeResponse getById(final Long id);
 
     void deleteById(final Long id);

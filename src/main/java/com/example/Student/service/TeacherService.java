@@ -2,6 +2,8 @@ package com.example.Student.service;
 
 import com.example.Student.dto.TeacherRequest;
 import com.example.Student.dto.TeacherResponse;
+import com.example.Student.model.StudentEntity;
+import com.example.Student.model.TeacherEntity;
 
 import java.util.List;
 
@@ -15,5 +17,7 @@ public interface TeacherService {
 
     void deleteById(final Long id);
 
-    TeacherResponse updateById(final Long id, final TeacherRequest teacherRequest);
+    TeacherResponse updateById(final Long id, TeacherRequest teacherRequest);
+
+    TeacherEntity findTeacherEntityById(final Long id);
 }

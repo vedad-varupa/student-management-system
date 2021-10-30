@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name="subject")
@@ -20,6 +19,5 @@ public class SubjectEntity {
     private Long id;
     private String subjectName;
     private Integer semester;
-//    private LocalDateTime createdAt;
-//    private String createdBy;
+
 }
