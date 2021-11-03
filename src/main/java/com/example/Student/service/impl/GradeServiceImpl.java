@@ -34,7 +34,6 @@ public class GradeServiceImpl implements GradeService {
     private final SubjectService subjectService;
     private final GradeMapper gradeMapper;
 
-
     @Override
     public GradeResponse create(final GradeRequest gradeRequest) {
         final GradeEntity gradeEntity = new GradeEntity();
@@ -101,5 +100,11 @@ public class GradeServiceImpl implements GradeService {
 
         final GradeEntity updatedGradeEntity = gradeRepository.save(gradeEntity);
         return gradeMapper.entityToResponse(updatedGradeEntity);
+    }
+
+    @Override
+    public Double getAverageGradeByStudentId(final Long id) {
+        studentService.findStudentEntityById(id);
+        return gradeRepository.getAverageGradeByStudentId(id);
     }
 }
