@@ -6,9 +6,11 @@ import com.example.Student.dto.StudentResponse;
 import com.example.Student.exception.ApiRequestException;
 import com.example.Student.mapper.StudentMapper;
 import com.example.Student.model.StudentEntity;
+import com.example.Student.service.GradeService;
 import com.example.Student.service.StudentService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -26,6 +28,7 @@ public class StudentServiceImpl implements StudentService {
     private final StudentMapper studentMapper;
 
 
+
     @Override
     public List<StudentResponse> getAll() {
         return studentRepository.findAll().stream()
@@ -35,7 +38,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse getById(final Long id) {
-        return studentMapper.entityToResponse(findStudentEntityById(id));
+      final  StudentEntity studentEntity=findStudentEntityById(id);
+      studentEntity.setAverage(getAverageGradeByStudentId(id));
+        return studentMapper.entityToResponse(studentEntity);
     }
 
     @Override
@@ -77,7 +82,11 @@ public class StudentServiceImpl implements StudentService {
                     MessageFormat.format(STUDENT_DOES_NOT_EXIST, id)
             );
         }
+
         return studentEntityOptional.get();
     }
-
+    @Override
+    public Double getAverageGradeByStudentId(final Long id) {
+        return studentRepository.getAverageGradeByStudentId(id);
+    }
 }

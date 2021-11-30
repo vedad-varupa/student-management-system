@@ -4,6 +4,7 @@ package com.example.Student.service;
 import com.example.Student.dto.StudentRequest;
 import com.example.Student.dto.StudentResponse;
 import com.example.Student.model.StudentEntity;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface StudentService {
     StudentResponse updateById(Long id, StudentRequest studentRequest);
 
     StudentEntity findStudentEntityById(final Long id);
+
+    Double getAverageGradeByStudentId(final Long id);
+
+
 }

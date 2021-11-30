@@ -15,4 +15,5 @@ public class StudentResponse {
     private String lastname;
     private String email;
     private int age;
+    private Double average;
 }

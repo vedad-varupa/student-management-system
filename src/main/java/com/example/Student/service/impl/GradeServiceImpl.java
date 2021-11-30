@@ -102,9 +102,4 @@ public class GradeServiceImpl implements GradeService {
         return gradeMapper.entityToResponse(updatedGradeEntity);
     }
 
-    @Override
-    public Double getAverageGradeByStudentId(final Long id) {
-        studentService.findStudentEntityById(id);
-        return gradeRepository.getAverageGradeByStudentId(id);
-    }
 }

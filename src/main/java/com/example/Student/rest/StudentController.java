@@ -4,6 +4,7 @@ import com.example.Student.dto.StudentRequest;
 import com.example.Student.dto.StudentResponse;
 import com.example.Student.service.StudentService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class StudentController {
     private final StudentService studentService;
+
 
     @GetMapping
     public ResponseEntity<List<StudentResponse>> getAll() {
@@ -43,5 +45,9 @@ public class StudentController {
             @RequestBody final StudentRequest studentRequest
     ) {
         return new ResponseEntity<>(studentService.updateById(id, studentRequest), HttpStatus.ACCEPTED);
+    }
+    @GetMapping("/get-average-grade/{id}")
+    public ResponseEntity<Double> getAverageGradeByStudentId(@PathVariable final Long id) {
+        return new ResponseEntity<>(studentService.getAverageGradeByStudentId(id), HttpStatus.FOUND);
     }
 }

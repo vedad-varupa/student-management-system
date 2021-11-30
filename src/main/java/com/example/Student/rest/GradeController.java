@@ -3,14 +3,16 @@ package com.example.Student.rest;
 import com.example.Student.dto.GradeRequest;
 import com.example.Student.dto.GradeResponse;
 import com.example.Student.service.GradeService;
+import com.example.Student.service.StudentService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("grade")
+@AllArgsConstructor
 public class GradeController {
 
     private final GradeService gradeService;
@@ -39,8 +41,5 @@ public class GradeController {
         return new ResponseEntity<>(gradeService.updateById(id, gradeRequest), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/get-average-grade/{id}")
-    public ResponseEntity<Double> getAverageGradeByStudentId(@PathVariable final Long id) {
-        return new ResponseEntity<>(gradeService.getAverageGradeByStudentId(id), HttpStatus.FOUND);
-    }
+
 }

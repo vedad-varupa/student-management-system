@@ -12,5 +12,7 @@ public interface GradeService {
 
     GradeResponse updateById(final Long id, GradeRequest gradeRequest);
 
-    Double getAverageGradeByStudentId(final Long id);
+
+
+
 }
