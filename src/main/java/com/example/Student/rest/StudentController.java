@@ -50,4 +50,5 @@ public class StudentController {
     public ResponseEntity<Double> getAverageGradeByStudentId(@PathVariable final Long id) {
         return new ResponseEntity<>(studentService.getAverageGradeByStudentId(id), HttpStatus.FOUND);
     }
+
 }

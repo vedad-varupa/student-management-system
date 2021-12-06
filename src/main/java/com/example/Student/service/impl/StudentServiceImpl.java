@@ -1,11 +1,14 @@
 package com.example.Student.service.impl;
 
 import com.example.Student.dao.StudentRepository;
+import com.example.Student.dao.SubjectRepository;
 import com.example.Student.dto.StudentRequest;
 import com.example.Student.dto.StudentResponse;
+import com.example.Student.dto.SubjectResponse;
 import com.example.Student.exception.ApiRequestException;
 import com.example.Student.mapper.StudentMapper;
 import com.example.Student.model.StudentEntity;
+import com.example.Student.model.SubjectEntity;
 import com.example.Student.service.GradeService;
 import com.example.Student.service.StudentService;
 import lombok.AllArgsConstructor;
@@ -38,9 +41,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse getById(final Long id) {
-      final  StudentEntity studentEntity=findStudentEntityById(id);
-      studentEntity.setAverage(getAverageGradeByStudentId(id));
-        return studentMapper.entityToResponse(studentEntity);
+      final  StudentEntity studentEntity = findStudentEntityById(id);
+      final StudentResponse studentResponse = studentMapper.entityToResponse(studentEntity);
+      final double average = this.getAverageGradeByStudentId(id);
+      final List<String> listsubjectnames = getSubjectNamesById(id);
+      studentResponse.setAverage(average);
+      studentResponse.setGetSubjectNamesById(listsubjectnames);
+      return studentResponse;
     }
 
     @Override
@@ -89,4 +96,12 @@ public class StudentServiceImpl implements StudentService {
     public Double getAverageGradeByStudentId(final Long id) {
         return studentRepository.getAverageGradeByStudentId(id);
     }
+
+    @Override
+    public List<String> getSubjectNamesById(Long id)
+    {
+        return studentRepository.getSubjectNamesById(id);
+    }
+
+
 }

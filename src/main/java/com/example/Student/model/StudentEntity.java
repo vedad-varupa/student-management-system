@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.List;
 
 @Entity
 @Table(name="student")
@@ -21,5 +23,4 @@ public class StudentEntity {
     private String lastname;
     private String email;
     private int age;
-    private Double average;
 }

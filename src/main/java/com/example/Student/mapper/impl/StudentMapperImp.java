@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StudentMapperImp implements StudentMapper {
-    private GradeService gradeService;
 
 
     @Override
@@ -24,7 +23,6 @@ public class StudentMapperImp implements StudentMapper {
         studentResponse.setLastname(studentEntity.getLastname());
         studentResponse.setAge(studentEntity.getAge());
         studentResponse.setEmail(studentEntity.getEmail());
-        studentResponse.setAverage(studentEntity.getAverage());
         return studentResponse;
     }
 
