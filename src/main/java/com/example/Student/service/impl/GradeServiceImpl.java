@@ -16,7 +16,6 @@ import com.example.Student.service.GradeService;
 import com.example.Student.service.StudentService;
 import com.example.Student.service.SubjectService;
 import com.example.Student.service.TeacherService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

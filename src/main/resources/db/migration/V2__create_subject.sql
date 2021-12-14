@@ -1,0 +1,1 @@
+INSERT INTO subject(id, semester, subject_name) VALUES (200, 1, 'Calculus');
